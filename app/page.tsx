@@ -186,7 +186,7 @@ export default function Page() {
         </div>
 
         <p style={{ fontSize: 12, color: C.dimmed, marginTop: 16, fontWeight: 500 }}>
-          مجاني · بدون إعلانات · v3.0.0 · Windows 10/11 & Android 6+
+          مجاني · v3.0.0 · Windows 10/11 & Android 6+
         </p>
 
         {flash && (
