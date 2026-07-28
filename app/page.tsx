@@ -67,10 +67,18 @@ export default function Page() {
   return (
     <main style={{ background: C.bg, color: C.text, fontFamily: "'Cairo',-apple-system,sans-serif", WebkitFontSmoothing: "antialiased" }}>
 
+      <style>{`
+        @media (max-width: 640px) {
+          .nav-links { display: none !important; }
+          .hero-btns { flex-direction: column !important; width: 100% !important; }
+          .hero-btns button { width: 100% !important; justify-content: center !important; }
+        }
+      `}</style>
+
       {/* ═══════════════ NAVBAR ═══════════════ */}
       <nav style={{
         position: "sticky", top: 0, zIndex: 100,
-        background: "rgba(0,0,0,0.82)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
+        background: "rgba(0,0,0,0.85)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
         borderBottom: `1px solid ${C.border}`,
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "0 clamp(16px, 5vw, 40px)", height: 60,
@@ -80,13 +88,15 @@ export default function Page() {
             style={{ borderRadius: 7, mixBlendMode: "screen" }} />
           <span style={{ fontWeight: 800, fontSize: 16, letterSpacing: "-0.3px" }}>WaledNet</span>
         </div>
-        <div style={{ display: "flex", gap: "clamp(14px,3vw,28px)", fontSize: 13, color: C.muted, fontWeight: 500 }}>
+
+        <div className="nav-links" style={{ display: "flex", gap: "clamp(14px,3vw,28px)", fontSize: 13, color: C.muted, fontWeight: 500 }}>
           {[["#platforms","الأجهزة"],["#features","المميزات"],["#faq","الأسئلة"]].map(([href,label]) => (
             <a key={href} href={href} style={{ color: "inherit", textDecoration: "none", transition: "color .2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = C.text)}
               onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>{label}</a>
           ))}
         </div>
+
         <button onClick={() => dl(os)} style={{
           background: C.blue, color: "#fff", border: "none",
           borderRadius: 980, padding: "8px 18px",
@@ -99,25 +109,25 @@ export default function Page() {
       </nav>
 
       {/* ═══════════════ HERO ═══════════════ */}
-      <section style={{ textAlign: "center", padding: "clamp(64px,10vw,112px) 24px clamp(48px,6vw,72px)", maxWidth: 820, margin: "0 auto" }}>
+      <section style={{ textAlign: "center", padding: "clamp(40px,7vw,96px) 20px clamp(36px,5vw,64px)", maxWidth: 820, margin: "0 auto" }}>
 
-        <Image src="/app_icon.png" alt="WaledNet" width={80} height={80}
-          style={{ borderRadius: 18, mixBlendMode: "screen", display: "block", margin: "0 auto 28px" }} />
+        <Image src="/app_icon.png" alt="WaledNet" width={72} height={72}
+          style={{ borderRadius: 18, mixBlendMode: "screen", display: "block", margin: "0 auto 24px" }} />
 
         {/* Device badge */}
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 7,
           background: C.surface, border: `1px solid ${C.border}`,
           borderRadius: 980, padding: "6px 16px",
-          fontSize: 12, fontWeight: 600, color: C.muted, marginBottom: 28,
+          fontSize: 12, fontWeight: 600, color: C.muted, marginBottom: 24,
         }}>
           {os === "windows" ? <Monitor size={12} color={C.blue} /> : <Smartphone size={12} color="#34d399" />}
           {os === "windows" ? "تم التعرف على جهازك — Windows" : "تم التعرف على جهازك — Android"}
         </div>
 
         <h1 style={{
-          fontSize: "clamp(40px,9vw,84px)", fontWeight: 900,
-          lineHeight: 1.05, letterSpacing: "-2px", margin: "0 auto 18px",
+          fontSize: "clamp(30px,7.5vw,72px)", fontWeight: 900,
+          lineHeight: 1.1, letterSpacing: "-1.5px", margin: "0 auto 16px",
         }}>
           إنترنت حر.<br />
           <span style={{ background: "linear-gradient(90deg,#60a5fa,#a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -126,21 +136,21 @@ export default function Page() {
         </h1>
 
         <p style={{
-          fontSize: "clamp(15px,2.5vw,20px)", color: C.muted, fontWeight: 400,
-          lineHeight: 1.65, maxWidth: 540, margin: "0 auto 40px",
+          fontSize: "clamp(14px,2.2vw,19px)", color: C.muted, fontWeight: 400,
+          lineHeight: 1.65, maxWidth: 520, margin: "0 auto 32px",
         }}>
           VPN متطور يعمل على الويندوز والأندرويد. يدعم VLESS، VMESS، SSH وSlowDNS للإنترنت بدون رصيد باقة.
         </p>
 
         {/* CTA Buttons */}
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+        <div className="hero-btns" style={{ display: "flex", gap: 12, justifyContent: "center", alignItems: "center" }}>
           {os === "android" ? (
             <>
               <button onClick={() => dl("android")} style={{
                 display: "flex", alignItems: "center", gap: 9,
                 background: "#10b981", color: "#fff", border: "none",
                 borderRadius: 14, padding: "14px 26px",
-                fontSize: "clamp(14px,2vw,16px)", fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+                fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
                 transition: "all .2s", boxShadow: "0 4px 24px rgba(16,185,129,0.25)",
               }}
                 onMouseEnter={e => { e.currentTarget.style.background = "#34d399"; e.currentTarget.style.transform = "translateY(-1px)"; }}
@@ -151,7 +161,7 @@ export default function Page() {
                 display: "flex", alignItems: "center", gap: 9,
                 background: C.surface, color: C.text, border: `1px solid ${C.border}`,
                 borderRadius: 14, padding: "14px 22px",
-                fontSize: "clamp(13px,2vw,15px)", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+                fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
                 transition: "all .2s",
               }}
                 onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
@@ -164,7 +174,7 @@ export default function Page() {
                 display: "flex", alignItems: "center", gap: 9,
                 background: C.blue, color: "#fff", border: "none",
                 borderRadius: 14, padding: "14px 26px",
-                fontSize: "clamp(14px,2vw,16px)", fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+                fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
                 transition: "all .2s", boxShadow: "0 4px 24px rgba(41,151,255,0.25)",
               }}
                 onMouseEnter={e => { e.currentTarget.style.background = C.blueH; e.currentTarget.style.transform = "translateY(-1px)"; }}
@@ -175,7 +185,7 @@ export default function Page() {
                 display: "flex", alignItems: "center", gap: 9,
                 background: C.surface, color: C.text, border: `1px solid ${C.border}`,
                 borderRadius: 14, padding: "14px 22px",
-                fontSize: "clamp(13px,2vw,15px)", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+                fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
                 transition: "all .2s",
               }}
                 onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
@@ -185,7 +195,7 @@ export default function Page() {
           )}
         </div>
 
-        <p style={{ fontSize: 12, color: C.dimmed, marginTop: 16, fontWeight: 500 }}>
+        <p style={{ fontSize: 12, color: C.dimmed, marginTop: 18, fontWeight: 500 }}>
           مجاني · v3.0.0 · Windows 10/11 & Android 6+
         </p>
 
@@ -199,46 +209,45 @@ export default function Page() {
       </section>
 
       {/* ═══════════════ PLATFORMS ═══════════════ */}
-      <section id="platforms" style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)" }}>
+      <section id="platforms" style={{ borderTop: `1px solid ${C.border}`, padding: "60px clamp(16px,5vw,24px)" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
 
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
             <Eyebrow>توافق متكامل</Eyebrow>
-            <h2 style={{ fontSize: "clamp(26px,5vw,48px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 14 }}>
+            <h2 style={{ fontSize: "clamp(24px,4.5vw,44px)", fontWeight: 900, letterSpacing: "-1px", lineHeight: 1.1, marginBottom: 12 }}>
               تطبيق واحد. منصتان.
             </h2>
-            <p style={{ fontSize: "clamp(14px,2vw,17px)", color: C.muted, maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
+            <p style={{ fontSize: "clamp(13px,2vw,16px)", color: C.muted, maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
               نفس الجودة والأداء على الويندوز والأندرويد.
             </p>
           </div>
 
-          {/* Cards grid — auto-fit works on any screen */}
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
-            gap: 14,
+            gap: 16,
           }}>
 
             {/* Windows */}
             <div style={{
-              background: "rgba(41,151,255,0.05)",
+              background: "rgba(41,151,255,0.04)",
               border: "1px solid rgba(41,151,255,0.18)",
-              borderRadius: 18, padding: "clamp(24px,4vw,36px) clamp(20px,4vw,28px)",
+              borderRadius: 18, padding: "clamp(24px,4vw,32px) clamp(20px,4vw,28px)",
               display: "flex", flexDirection: "column",
             }}>
               <div style={{
-                width: 52, height: 52, borderRadius: 14,
+                width: 48, height: 48, borderRadius: 14,
                 background: "rgba(41,151,255,0.12)", border: "1px solid rgba(41,151,255,0.22)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 26, marginBottom: 20,
+                fontSize: 24, marginBottom: 16,
               }}>🖥️</div>
 
-              <h3 style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.4px", marginBottom: 4 }}>Windows</h3>
-              <p style={{ fontSize: 11, color: C.blue, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 18 }}>
+              <h3 style={{ fontSize: 20, fontWeight: 900, letterSpacing: "-0.4px", marginBottom: 4 }}>Windows</h3>
+              <p style={{ fontSize: 11, color: C.blue, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 16 }}>
                 EXE Installer · 64-bit
               </p>
 
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 9 }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 9 }}>
                 {["يعمل على Windows 10 و 11","استهلاك أقل من 25MB RAM","تشغيل تلقائي مع بدء النظام","دعم كامل لتوجيه الترافيك"].map(f => (
                   <li key={f} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 13, color: C.muted }}>
                     <span style={{ color: C.blue, flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
@@ -260,24 +269,24 @@ export default function Page() {
 
             {/* Android */}
             <div style={{
-              background: "rgba(52,211,153,0.05)",
+              background: "rgba(52,211,153,0.04)",
               border: "1px solid rgba(52,211,153,0.18)",
-              borderRadius: 18, padding: "clamp(24px,4vw,36px) clamp(20px,4vw,28px)",
+              borderRadius: 18, padding: "clamp(24px,4vw,32px) clamp(20px,4vw,28px)",
               display: "flex", flexDirection: "column",
             }}>
               <div style={{
-                width: 52, height: 52, borderRadius: 14,
+                width: 48, height: 48, borderRadius: 14,
                 background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.22)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 26, marginBottom: 20,
+                fontSize: 24, marginBottom: 16,
               }}>📱</div>
 
-              <h3 style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.4px", marginBottom: 4 }}>Android</h3>
-              <p style={{ fontSize: 11, color: "#34d399", fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 18 }}>
+              <h3 style={{ fontSize: 20, fontWeight: 900, letterSpacing: "-0.4px", marginBottom: 4 }}>Android</h3>
+              <p style={{ fontSize: 11, color: "#34d399", fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 16 }}>
                 APK · Android 6.0+
               </p>
 
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 9 }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 9 }}>
                 {["يعمل على جميع أجهزة الأندرويد","دعم حصري لبروتوكول SlowDNS","إنترنت بدون رصيد باقة","إشعار حيّ للسرعة والـ Ping"].map(f => (
                   <li key={f} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 13, color: C.muted }}>
                     <span style={{ color: "#34d399", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
@@ -306,23 +315,23 @@ export default function Page() {
       </section>
 
       {/* ═══════════════ FEATURES ═══════════════ */}
-      <section id="features" style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)" }}>
+      <section id="features" style={{ borderTop: `1px solid ${C.border}`, padding: "60px clamp(16px,5vw,24px)" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
 
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
             <Eyebrow>البروتوكولات المدعومة</Eyebrow>
-            <h2 style={{ fontSize: "clamp(26px,5vw,48px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 14 }}>
+            <h2 style={{ fontSize: "clamp(24px,4.5vw,44px)", fontWeight: 900, letterSpacing: "-1px", lineHeight: 1.1, marginBottom: 12 }}>
               أربع تقنيات. حماية كاملة.
             </h2>
-            <p style={{ fontSize: "clamp(14px,2vw,17px)", color: C.muted, maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
+            <p style={{ fontSize: "clamp(13px,2vw,16px)", color: C.muted, maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
               أحدث بروتوكولات التشفير وتجاوز الحجب — كلها في تطبيق واحد.
             </p>
           </div>
 
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
-            gap: 2,
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+            gap: 14,
           }}>
             {[
               { emoji: "🌐", title: "SlowDNS",      desc: "اتصال مشفر عبر أنفاق DNS. يتجاوز قيود الباقة على جميع الشبكات." },
@@ -331,14 +340,14 @@ export default function Page() {
               { emoji: "🚀", title: "SNI Bypass",   desc: "خصص حزم SNI للحصول على أقصى سرعة على شبكتك." },
             ].map((f, i) => (
               <div key={i} style={{
-                padding: "clamp(28px,4vw,44px) clamp(20px,3vw,36px)",
-                background: i % 2 === 0 ? C.surface : "rgba(255,255,255,0.02)",
-                borderTop: i >= 2 ? `1px solid ${C.border}` : "none",
-                borderRight: i % 2 === 0 ? `1px solid ${C.border}` : "none",
+                padding: "24px 20px",
+                background: C.surface,
+                border: `1px solid ${C.border}`,
+                borderRadius: 16,
               }}>
-                <div style={{ fontSize: 36, marginBottom: 16 }}>{f.emoji}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
-                <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.8 }}>{f.desc}</p>
+                <div style={{ fontSize: 32, marginBottom: 14 }}>{f.emoji}</div>
+                <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
+                <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.75 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -346,12 +355,12 @@ export default function Page() {
       </section>
 
       {/* ═══════════════ FAQ ═══════════════ */}
-      <section id="faq" style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)" }}>
+      <section id="faq" style={{ borderTop: `1px solid ${C.border}`, padding: "60px clamp(16px,5vw,24px)" }}>
         <div style={{ maxWidth: 620, margin: "0 auto" }}>
 
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
             <Eyebrow>الأسئلة الشائعة</Eyebrow>
-            <h2 style={{ fontSize: "clamp(26px,5vw,44px)", fontWeight: 900, letterSpacing: "-1.2px" }}>
+            <h2 style={{ fontSize: "clamp(24px,4.5vw,40px)", fontWeight: 900, letterSpacing: "-1px" }}>
               كل ما تريد معرفته.
             </h2>
           </div>
@@ -361,8 +370,8 @@ export default function Page() {
               a="نعم. كل نسخة مُصممة خصيصاً للمنصة، بنفس البروتوكولات والسيرفرات وبدون أي فرق في الأداء." />
             <FaqItem q="كيف يعمل SlowDNS بدون رصيد باقة؟"
               a="يمرر بياناتك عبر أنفاق DNS مشفرة تعمل على طبقة DNS الأساسية للشبكة، مستقلةً عن الباقة." />
-            <FaqItem q="هل التطبيق مجاني وبدون إعلانات تماماً؟"
-              a="نعم، مجاني 100% وخالٍ من الإعلانات، مع تحديثات مستمرة للسيرفرات والبروتوكولات." />
+            <FaqItem q="هل التطبيق مجاني تماماً؟"
+              a="نعم، مجاني 100% مع تحديثات مستمرة للسيرفرات والبروتوكولات." />
             <FaqItem q="كيف أُضيف حزمة SNI خاصة بي؟"
               a="من قسم (حزم SNI) داخل التطبيق، تستطيع إضافة وتخصيص أي حزمة SNI للحصول على أعلى أداء." />
           </div>
@@ -370,15 +379,15 @@ export default function Page() {
       </section>
 
       {/* ═══════════════ FINAL CTA ═══════════════ */}
-      <section style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)", textAlign: "center" }}>
+      <section style={{ borderTop: `1px solid ${C.border}`, padding: "60px clamp(16px,5vw,24px)", textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <h2 style={{ fontSize: "clamp(32px,6vw,60px)", fontWeight: 900, letterSpacing: "-1.8px", lineHeight: 1.08, marginBottom: 18 }}>
+          <h2 style={{ fontSize: "clamp(28px,5.5vw,52px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 16 }}>
             ابدأ الاتصال.<br />الآن.
           </h2>
-          <p style={{ fontSize: "clamp(15px,2vw,18px)", color: C.muted, marginBottom: 40, lineHeight: 1.6 }}>
+          <p style={{ fontSize: "clamp(14px,2vw,17px)", color: C.muted, marginBottom: 32, lineHeight: 1.6 }}>
             مجاني. فوري. بلا قيود.
           </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="hero-btns" style={{ display: "flex", gap: 12, justifyContent: "center", alignItems: "center" }}>
             <button onClick={() => dl("windows")} style={{
               display: "flex", alignItems: "center", gap: 9,
               background: C.blue, color: "#fff", border: "none",
@@ -405,7 +414,7 @@ export default function Page() {
       {/* ═══════════════ FOOTER ═══════════════ */}
       <footer style={{
         borderTop: `1px solid ${C.border}`,
-        padding: "24px clamp(16px,5vw,40px)",
+        padding: "20px clamp(16px,5vw,40px)",
         display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
