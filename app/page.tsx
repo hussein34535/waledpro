@@ -33,7 +33,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
     <div style={{ borderBottom: `1px solid ${C.border}` }}>
       <button onClick={() => setOpen(!open)} style={{
         width: "100%", textAlign: "right", background: "none", border: "none",
-        color: C.text, fontSize: 15, fontWeight: 600, padding: "18px 4px",
+        color: C.text, fontSize: 15, fontWeight: 600, padding: "16px 4px",
         cursor: "pointer", fontFamily: "inherit",
         display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
       }}>
@@ -45,7 +45,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         }}>+</span>
       </button>
       {open && (
-        <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.75, paddingBottom: 18, textAlign: "right", margin: 0 }}>{a}</p>
+        <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, paddingBottom: 16, textAlign: "right", margin: 0 }}>{a}</p>
       )}
     </div>
   )
@@ -139,31 +139,31 @@ export default function Page() {
           .mobile-only { display: block !important; }
 
           .m-btn-android {
-            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 5px;
             background: #10b981; color: #ffffff; border: none;
-            border-radius: 12px; padding: 10px 16px;
-            font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit;
+            border-radius: 11px; padding: 9px 15px;
+            font-size: 12.5px; font-weight: 800; cursor: pointer; font-family: inherit;
             box-shadow: 0 4px 16px rgba(16,185,129,0.3);
           }
           .m-btn-windows {
-            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 5px;
             background: #2997ff; color: #ffffff; border: none;
-            border-radius: 12px; padding: 10px 16px;
-            font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit;
+            border-radius: 11px; padding: 9px 15px;
+            font-size: 12.5px; font-weight: 800; cursor: pointer; font-family: inherit;
             box-shadow: 0 4px 16px rgba(41,151,255,0.3);
           }
           .m-btn-secondary {
-            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 5px;
             background: rgba(255,255,255,0.06); color: #f5f5f7;
             border: 1px solid rgba(255,255,255,0.14);
-            border-radius: 12px; padding: 10px 14px;
-            font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit;
+            border-radius: 11px; padding: 9px 13px;
+            font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
           }
         }
       `}</style>
 
       {/* ================================================================= */}
-      {/* 📱 DEDICATED APPLE MOBILE VIEW (SEPARATE MINIMAL & SPACIOUS DESIGN) */}
+      {/* 📱 DEDICATED APPLE MOBILE VIEW (ULTRA MINIMAL, SINGLE ROW & SPACIOUS) */}
       {/* ================================================================= */}
       <div className="mobile-only" style={{ minHeight: "100vh" }}>
         
@@ -173,39 +173,39 @@ export default function Page() {
           background: "rgba(0,0,0,0.85)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
           borderBottom: `1px solid ${C.border}`,
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "0 20px", height: 54,
+          padding: "0 24px", height: 52,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Image src="/app_icon.png" alt="WaledNet" width={26} height={26} style={{ borderRadius: 6, mixBlendMode: "screen" }} />
-            <span style={{ fontWeight: 800, fontSize: 15, letterSpacing: "-0.3px" }}>WaledNet</span>
+            <Image src="/app_icon.png" alt="WaledNet" width={24} height={24} style={{ borderRadius: 6, mixBlendMode: "screen" }} />
+            <span style={{ fontWeight: 800, fontSize: 14, letterSpacing: "-0.3px" }}>WaledNet</span>
           </div>
 
-          <button onClick={() => dl(os)} className={os === "android" ? "m-btn-android" : "m-btn-windows"} style={{ padding: "6px 12px", fontSize: 12, borderRadius: 10, boxShadow: "none" }}>
-            <Download size={12} /> تحميل مجاني
+          <button onClick={() => dl(os)} className={os === "android" ? "m-btn-android" : "m-btn-windows"} style={{ padding: "5px 12px", fontSize: 11.5, borderRadius: 9, boxShadow: "none" }}>
+            <Download size={11} /> تحميل مجاني
           </button>
         </nav>
 
-        {/* Mobile Main Body with Ample Breathing Space */}
-        <div style={{ padding: "36px 20px 48px", textAlign: "center", maxWidth: 440, margin: "0 auto" }}>
+        {/* Mobile Main Body with Wide Side Margins and Comfortable Breathing Room */}
+        <div style={{ padding: "32px 32px 48px", textAlign: "center", maxWidth: 350, margin: "0 auto" }}>
 
           {/* Hero Icon */}
-          <Image src="/app_icon.png" alt="WaledNet" width={68} height={68}
-            style={{ borderRadius: 17, mixBlendMode: "screen", margin: "0 auto 18px", filter: "drop-shadow(0 0 24px rgba(41,151,255,0.35))" }} />
+          <Image src="/app_icon.png" alt="WaledNet" width={60} height={60}
+            style={{ borderRadius: 15, mixBlendMode: "screen", margin: "0 auto 16px", filter: "drop-shadow(0 0 20px rgba(41,151,255,0.35))" }} />
 
           {/* Device Detection Badge */}
           <div style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
+            display: "inline-flex", alignItems: "center", gap: 5,
             background: C.surface, border: `1px solid ${C.border}`,
-            borderRadius: 980, padding: "5px 14px",
-            fontSize: 11, fontWeight: 600, color: C.muted, marginBottom: 20,
+            borderRadius: 980, padding: "4px 12px",
+            fontSize: 10.5, fontWeight: 600, color: C.muted, marginBottom: 16,
           }}>
-            {os === "windows" ? <Monitor size={11} color={C.blue} /> : <Smartphone size={11} color="#34d399" />}
+            {os === "windows" ? <Monitor size={10} color={C.blue} /> : <Smartphone size={10} color="#34d399" />}
             {os === "windows" ? "تم التعرف على جهازك — Windows" : "تم التعرف على جهازك — Android"}
           </div>
 
           {/* Hero Title */}
           <h1 style={{
-            fontSize: 32, fontWeight: 900, lineHeight: 1.18, letterSpacing: "-1px", margin: "0 auto 12px",
+            fontSize: 28, fontWeight: 900, lineHeight: 1.2, letterSpacing: "-0.8px", margin: "0 auto 10px",
           }}>
             إنترنت حر.<br />
             <span style={{ background: "linear-gradient(90deg,#60a5fa,#a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -214,97 +214,86 @@ export default function Page() {
           </h1>
 
           <p style={{
-            fontSize: 13.5, color: C.muted, fontWeight: 400, lineHeight: 1.6, margin: "0 auto 28px", maxWidth: 320,
+            fontSize: 12.5, color: C.muted, fontWeight: 400, lineHeight: 1.55, margin: "0 auto 22px", maxWidth: 280,
           }}>
-            VPN متطور للويندوز والأندرويد. يدعم VLESS, VMESS, SSH وSlowDNS بدون رصيد باقة.
+            VPN متطور للويندوز والأندرويد بدون رصيد باقة.
           </p>
 
           {/* Side by Side Buttons */}
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center", marginBottom: 14 }}>
+          <div style={{ display: "flex", gap: 8, justifyContent: "center", alignItems: "center", marginBottom: 12 }}>
             {os === "android" ? (
               <>
                 <button onClick={() => dl("android")} className="m-btn-android">
-                  <Download size={14} /> Android (APK)
+                  <Download size={13} /> Android (APK)
                 </button>
                 <button onClick={() => dl("windows")} className="m-btn-secondary">
-                  <Monitor size={13} color={C.blue} /> Windows (EXE)
+                  <Monitor size={12} color={C.blue} /> Windows (EXE)
                 </button>
               </>
             ) : (
               <>
                 <button onClick={() => dl("windows")} className="m-btn-windows">
-                  <Download size={14} /> Windows (EXE)
+                  <Download size={13} /> Windows (EXE)
                 </button>
                 <button onClick={() => dl("android")} className="m-btn-secondary">
-                  <Smartphone size={13} color="#34d399" /> Android (APK)
+                  <Smartphone size={12} color="#34d399" /> Android (APK)
                 </button>
               </>
             )}
           </div>
 
-          <p style={{ fontSize: 11, color: C.dimmed, fontWeight: 500, marginBottom: 36 }}>
+          <p style={{ fontSize: 10.5, color: C.dimmed, fontWeight: 500, marginBottom: 24 }}>
             مجاني · v{urls.version} · Windows 10/11 & Android 6+
           </p>
 
-          {/* Spacious 2x2 Mini Protocol Cards */}
+          {/* ⚡ SINGLE ROW HORIZONTAL PILL BAR FOR PROTOCOLS (ULTRA COMPACT) */}
           <div style={{
-            display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12, margin: "32px 0", textAlign: "center",
+            display: "flex", alignItems: "center", justifyContent: "space-around",
+            background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`,
+            borderRadius: 12, padding: "10px 8px", margin: "20px 0 24px", gap: 4,
           }}>
             {[
-              { icon: Globe, title: "SlowDNS", desc: "بدون رصيد باقة", color: "#60a5fa" },
-              { icon: Zap,   title: "VLESS / VMESS", desc: "سرعة وتجاوز الحجب", color: "#a78bfa" },
-              { icon: Lock,  title: "SSH Tunnel", desc: "تشفير عسكري لحمايتك", color: "#34d399" },
-              { icon: Shield,title: "SNI Bypass", desc: "حزم مخصصة لشبكتك", color: "#f59e0b" },
-            ].map((f, i) => {
-              const Icon = f.icon
+              { icon: Globe, label: "SlowDNS", color: "#60a5fa" },
+              { icon: Zap,   label: "VLESS",   color: "#a78bfa" },
+              { icon: Lock,  label: "SSH",     color: "#34d399" },
+              { icon: Shield,label: "SNI",     color: "#f59e0b" },
+            ].map((p, i) => {
+              const Icon = p.icon
               return (
-                <div key={i} style={{
-                  padding: "16px 12px",
-                  background: C.surface,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 16,
-                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                }}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: 11,
-                    background: `${f.color}15`, border: `1px solid ${f.color}30`,
-                    display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 8,
-                  }}>
-                    <Icon size={17} color={f.color} />
-                  </div>
-                  <h3 style={{ fontSize: 13, fontWeight: 800, color: C.text, margin: "0 0 3px" }}>{f.title}</h3>
-                  <p style={{ fontSize: 11, color: C.muted, margin: 0 }}>{f.desc}</p>
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <Icon size={12} color={p.color} />
+                  <span style={{ fontSize: 10.5, fontWeight: 700, color: C.text }}>{p.label}</span>
                 </div>
               )
             })}
           </div>
 
           {/* Simple Platforms Pills */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10, margin: "24px 0 36px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, margin: "0 0 28px" }}>
             <div onClick={() => dl("windows")} style={{
               background: "rgba(41,151,255,0.04)", border: "1px solid rgba(41,151,255,0.2)",
-              borderRadius: 14, padding: "14px 10px", cursor: "pointer",
+              borderRadius: 12, padding: "10px 8px", cursor: "pointer",
             }}>
-              <Monitor size={18} color={C.blue} style={{ marginBottom: 4 }} />
-              <div style={{ fontSize: 13, fontWeight: 800 }}>Windows</div>
-              <div style={{ fontSize: 10, color: C.blue, fontWeight: 700, marginTop: 2 }}>EXE · 64-bit</div>
+              <Monitor size={16} color={C.blue} style={{ marginBottom: 3 }} />
+              <div style={{ fontSize: 12, fontWeight: 800 }}>Windows</div>
+              <div style={{ fontSize: 9.5, color: C.blue, fontWeight: 700, marginTop: 1 }}>EXE · 64-bit</div>
             </div>
 
             <div onClick={() => dl("android")} style={{
               background: "rgba(52,211,153,0.04)", border: "1px solid rgba(52,211,153,0.2)",
-              borderRadius: 14, padding: "14px 10px", cursor: "pointer",
+              borderRadius: 12, padding: "10px 8px", cursor: "pointer",
             }}>
-              <Smartphone size={18} color="#34d399" style={{ marginBottom: 4 }} />
-              <div style={{ fontSize: 13, fontWeight: 800 }}>Android</div>
-              <div style={{ fontSize: 10, color: "#34d399", fontWeight: 700, marginTop: 2 }}>APK · 6.0+</div>
+              <Smartphone size={16} color="#34d399" style={{ marginBottom: 3 }} />
+              <div style={{ fontSize: 12, fontWeight: 800 }}>Android</div>
+              <div style={{ fontSize: 9.5, color: "#34d399", fontWeight: 700, marginTop: 1 }}>APK · 6.0+</div>
             </div>
           </div>
 
           {/* Simple Mobile FAQ */}
-          <div style={{ padding: "24px 0 16px", borderTop: `1px solid ${C.border}` }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 12 }}>
-              <HelpCircle size={14} color={C.blue} />
-              <span style={{ fontSize: 13, fontWeight: 800, color: C.text }}>الأسئلة الشائعة</span>
+          <div style={{ padding: "20px 0 16px", borderTop: `1px solid ${C.border}` }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5, marginBottom: 10 }}>
+              <HelpCircle size={13} color={C.blue} />
+              <span style={{ fontSize: 12.5, fontWeight: 800, color: C.text }}>الأسئلة الشائعة</span>
             </div>
             <FaqItem q="هل يعمل على الويندوز والأندرويد بنفس الكفاءة؟"
               a="نعم. كل نسخة مُصممة خصيصاً للمنصة، بنفس البروتوكولات والسيرفرات وبدون أي فرق في الأداء." />
@@ -315,12 +304,12 @@ export default function Page() {
           </div>
 
           {/* Mobile Footer */}
-          <footer style={{ paddingTop: 28, borderTop: `1px solid ${C.border}`, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <Image src="/app_icon.png" alt="WaledNet" width={18} height={18} style={{ borderRadius: 4, mixBlendMode: "screen" }} />
-              <span style={{ fontSize: 11, color: C.dimmed, fontWeight: 600 }}>© 2026 WaledNet VPN</span>
+          <footer style={{ paddingTop: 24, borderTop: `1px solid ${C.border}`, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <Image src="/app_icon.png" alt="WaledNet" width={16} height={16} style={{ borderRadius: 4, mixBlendMode: "screen" }} />
+              <span style={{ fontSize: 10.5, color: C.dimmed, fontWeight: 600 }}>© 2026 WaledNet VPN</span>
             </div>
-            <a href="https://t.me/waledpro" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: C.blue, textDecoration: "none", fontWeight: 700 }}>
+            <a href="https://t.me/waledpro" target="_blank" rel="noopener noreferrer" style={{ fontSize: 10.5, color: C.blue, textDecoration: "none", fontWeight: 700 }}>
               قناة الدعم على تليجرام ›
             </a>
           </footer>
