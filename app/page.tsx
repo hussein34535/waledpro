@@ -4,19 +4,17 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Download, Monitor, Smartphone } from "lucide-react"
 
-// ─── Spacing & Color System ───────────────────────────────────────
 const C = {
-  bg:       "#000000",
-  surface:  "rgba(255,255,255,0.04)",
-  border:   "rgba(255,255,255,0.08)",
-  text:     "#f5f5f7",
-  muted:    "rgba(245,245,247,0.5)",
-  dimmed:   "rgba(245,245,247,0.28)",
-  blue:     "#2997ff",
-  blueHover:"#3da0ff",
+  bg:      "#000000",
+  surface: "rgba(255,255,255,0.04)",
+  border:  "rgba(255,255,255,0.08)",
+  text:    "#f5f5f7",
+  muted:   "rgba(245,245,247,0.5)",
+  dimmed:  "rgba(245,245,247,0.28)",
+  blue:    "#2997ff",
+  blueH:   "#3da0ff",
 }
 
-// Reusable pill label above section headings
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.blue, marginBottom: 14 }}>
@@ -25,32 +23,25 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   )
 }
 
-// FAQ accordion item
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
     <div style={{ borderBottom: `1px solid ${C.border}` }}>
-      <button
-        onClick={() => setOpen(!open)}
-        style={{
-          width: "100%", textAlign: "right", background: "none", border: "none",
-          color: C.text, fontSize: 16, fontWeight: 600, padding: "20px 0",
-          cursor: "pointer", fontFamily: "inherit",
-          display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
-        }}
-      >
+      <button onClick={() => setOpen(!open)} style={{
+        width: "100%", textAlign: "right", background: "none", border: "none",
+        color: C.text, fontSize: 16, fontWeight: 600, padding: "20px 0",
+        cursor: "pointer", fontFamily: "inherit",
+        display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
+      }}>
         <span>{q}</span>
         <span style={{
           fontSize: 24, color: C.dimmed, fontWeight: 300, flexShrink: 0,
           transform: open ? "rotate(45deg)" : "none",
-          transition: "transform .25s ease",
-          display: "inline-block",
+          transition: "transform .25s ease", display: "inline-block",
         }}>+</span>
       </button>
       {open && (
-        <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, paddingBottom: 20 }}>
-          {a}
-        </p>
+        <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, paddingBottom: 20 }}>{a}</p>
       )}
     </div>
   )
@@ -67,7 +58,7 @@ export default function Page() {
 
   const dl = (type: "windows" | "android") => {
     const a = document.createElement("a")
-    a.href  = type === "windows" ? "/walednet-setup.exe" : "/waledpro.apk"
+    a.href = type === "windows" ? "/walednet-setup.exe" : "/waledpro.apk"
     a.download = type === "windows" ? "WaledNet-Setup.exe" : "WaledNet.apk"
     document.body.appendChild(a); a.click(); document.body.removeChild(a)
     setFlash(true); setTimeout(() => setFlash(false), 2800)
@@ -76,72 +67,57 @@ export default function Page() {
   return (
     <main style={{ background: C.bg, color: C.text, fontFamily: "'Cairo',-apple-system,sans-serif", WebkitFontSmoothing: "antialiased" }}>
 
-      {/* ════════════════════════ NAVBAR ════════════════════════ */}
+      {/* ═══════════════ NAVBAR ═══════════════ */}
       <nav style={{
         position: "sticky", top: 0, zIndex: 100,
         background: "rgba(0,0,0,0.82)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
         borderBottom: `1px solid ${C.border}`,
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 40px", height: 60,
+        padding: "0 clamp(16px, 5vw, 40px)", height: 60,
       }}>
-        {/* Brand */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Image src="/app_icon.png" alt="WaledNet" width={30} height={30}
             style={{ borderRadius: 7, mixBlendMode: "screen" }} />
           <span style={{ fontWeight: 800, fontSize: 16, letterSpacing: "-0.3px" }}>WaledNet</span>
         </div>
-
-        {/* Links — hide on small */}
-        <div style={{ display: "flex", gap: 28, fontSize: 13, color: C.muted, fontWeight: 500 }}>
-          {["#platforms|الأجهزة", "#features|المميزات", "#faq|الأسئلة الشائعة"].map(l => {
-            const [href, label] = l.split("|")
-            return (
-              <a key={href} href={href} style={{ color: "inherit", textDecoration: "none", transition: "color .2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = C.text)}
-                onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-                {label}
-              </a>
-            )
-          })}
+        <div style={{ display: "flex", gap: "clamp(14px,3vw,28px)", fontSize: 13, color: C.muted, fontWeight: 500 }}>
+          {[["#platforms","الأجهزة"],["#features","المميزات"],["#faq","الأسئلة"]].map(([href,label]) => (
+            <a key={href} href={href} style={{ color: "inherit", textDecoration: "none", transition: "color .2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.text)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>{label}</a>
+          ))}
         </div>
-
-        {/* Pill CTA */}
         <button onClick={() => dl(os)} style={{
           background: C.blue, color: "#fff", border: "none",
-          borderRadius: 980, padding: "8px 20px",
+          borderRadius: 980, padding: "8px 18px",
           fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
-          transition: "background .2s",
+          transition: "background .2s", whiteSpace: "nowrap",
         }}
-          onMouseEnter={e => (e.currentTarget.style.background = C.blueHover)}
+          onMouseEnter={e => (e.currentTarget.style.background = C.blueH)}
           onMouseLeave={e => (e.currentTarget.style.background = C.blue)}
-        >
-          تحميل مجاني
-        </button>
+        >تحميل مجاني</button>
       </nav>
 
-      {/* ════════════════════════ HERO ════════════════════════ */}
-      <section style={{ textAlign: "center", padding: "112px 24px 72px", maxWidth: 820, margin: "0 auto" }}>
+      {/* ═══════════════ HERO ═══════════════ */}
+      <section style={{ textAlign: "center", padding: "clamp(64px,10vw,112px) 24px clamp(48px,6vw,72px)", maxWidth: 820, margin: "0 auto" }}>
 
-        {/* App Icon */}
-        <Image src="/app_icon.png" alt="WaledNet Icon" width={88} height={88}
-          style={{ borderRadius: 20, mixBlendMode: "screen", marginBottom: 32, display: "block", margin: "0 auto 32px" }} />
+        <Image src="/app_icon.png" alt="WaledNet" width={80} height={80}
+          style={{ borderRadius: 18, mixBlendMode: "screen", display: "block", margin: "0 auto 28px" }} />
 
-        {/* OS Detection badge */}
+        {/* Device badge */}
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 7,
           background: C.surface, border: `1px solid ${C.border}`,
           borderRadius: 980, padding: "6px 16px",
-          fontSize: 12, fontWeight: 600, color: C.muted, marginBottom: 32,
+          fontSize: 12, fontWeight: 600, color: C.muted, marginBottom: 28,
         }}>
           {os === "windows" ? <Monitor size={12} color={C.blue} /> : <Smartphone size={12} color="#34d399" />}
           {os === "windows" ? "تم التعرف على جهازك — Windows" : "تم التعرف على جهازك — Android"}
         </div>
 
-        {/* Headline */}
         <h1 style={{
-          fontSize: "clamp(48px, 9vw, 84px)", fontWeight: 900,
-          lineHeight: 1.04, letterSpacing: "-2.5px",
-          margin: "0 auto 20px",
+          fontSize: "clamp(40px,9vw,84px)", fontWeight: 900,
+          lineHeight: 1.05, letterSpacing: "-2px", margin: "0 auto 18px",
         }}>
           إنترنت حر.<br />
           <span style={{ background: "linear-gradient(90deg,#60a5fa,#a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -149,216 +125,233 @@ export default function Page() {
           </span>
         </h1>
 
-        {/* Sub-headline */}
         <p style={{
-          fontSize: "clamp(17px, 2.5vw, 21px)", color: C.muted, fontWeight: 400,
-          lineHeight: 1.65, maxWidth: 540, margin: "0 auto 48px",
+          fontSize: "clamp(15px,2.5vw,20px)", color: C.muted, fontWeight: 400,
+          lineHeight: 1.65, maxWidth: 540, margin: "0 auto 40px",
         }}>
-          VPN متطور يعمل على الويندوز والأندرويد. يدعم
-          VLESS، VMESS، SSH وSlowDNS للإنترنت بدون رصيد باقة.
+          VPN متطور يعمل على الويندوز والأندرويد. يدعم VLESS، VMESS، SSH وSlowDNS للإنترنت بدون رصيد باقة.
         </p>
 
         {/* CTA Buttons */}
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <button onClick={() => dl(os)} style={{
-            display: "flex", alignItems: "center", gap: 10,
-            background: C.blue, color: "#fff", border: "none",
-            borderRadius: 14, padding: "15px 30px",
-            fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
-            letterSpacing: "-0.2px", transition: "all .2s",
-            boxShadow: "0 4px 28px rgba(41,151,255,0.28)",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.background = C.blueHover; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = C.blue;      e.currentTarget.style.transform = "none"; }}
-          >
-            <Download size={17} />
-            {os === "android" ? "تحميل لـ Android (APK)" : "تحميل لـ Windows (EXE)"}
-          </button>
+          {os === "android" ? (
+            <>
+              <button onClick={() => dl("android")} style={{
+                display: "flex", alignItems: "center", gap: 9,
+                background: "#10b981", color: "#fff", border: "none",
+                borderRadius: 14, padding: "14px 26px",
+                fontSize: "clamp(14px,2vw,16px)", fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+                transition: "all .2s", boxShadow: "0 4px 24px rgba(16,185,129,0.25)",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#34d399"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#10b981"; e.currentTarget.style.transform = "none"; }}
+              ><Download size={16} /> تحميل لـ Android (APK)</button>
 
-          <button onClick={() => dl(os === "android" ? "windows" : "android")} style={{
-            display: "flex", alignItems: "center", gap: 10,
-            background: C.surface, color: C.text,
-            border: `1px solid ${C.border}`,
-            borderRadius: 14, padding: "15px 26px",
-            fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
-            transition: "all .2s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = C.surface;                e.currentTarget.style.transform = "none"; }}
-          >
-            {os === "android" ? <Monitor size={15} color={C.blue} /> : <Smartphone size={15} color="#34d399" />}
-            {os === "android" ? "أو تحميل لـ Windows" : "أو تحميل لـ Android"}
-          </button>
+              <button onClick={() => dl("windows")} style={{
+                display: "flex", alignItems: "center", gap: 9,
+                background: C.surface, color: C.text, border: `1px solid ${C.border}`,
+                borderRadius: 14, padding: "14px 22px",
+                fontSize: "clamp(13px,2vw,15px)", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+                transition: "all .2s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = C.surface; e.currentTarget.style.transform = "none"; }}
+              ><Monitor size={15} color={C.blue} /> أو تحميل لـ Windows</button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => dl("windows")} style={{
+                display: "flex", alignItems: "center", gap: 9,
+                background: C.blue, color: "#fff", border: "none",
+                borderRadius: 14, padding: "14px 26px",
+                fontSize: "clamp(14px,2vw,16px)", fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+                transition: "all .2s", boxShadow: "0 4px 24px rgba(41,151,255,0.25)",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = C.blueH; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = C.blue;  e.currentTarget.style.transform = "none"; }}
+              ><Download size={16} /> تحميل لـ Windows (EXE)</button>
+
+              <button onClick={() => dl("android")} style={{
+                display: "flex", alignItems: "center", gap: 9,
+                background: C.surface, color: C.text, border: `1px solid ${C.border}`,
+                borderRadius: 14, padding: "14px 22px",
+                fontSize: "clamp(13px,2vw,15px)", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+                transition: "all .2s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = C.surface; e.currentTarget.style.transform = "none"; }}
+              ><Smartphone size={15} color="#34d399" /> أو تحميل لـ Android</button>
+            </>
+          )}
         </div>
 
-        {/* Micro copy */}
-        <p style={{ fontSize: 12, color: C.dimmed, marginTop: 18, fontWeight: 500 }}>
+        <p style={{ fontSize: 12, color: C.dimmed, marginTop: 16, fontWeight: 500 }}>
           مجاني · بدون إعلانات · v3.0.0 · Windows 10/11 & Android 6+
         </p>
 
-        {/* Download flash */}
         {flash && (
           <div style={{
-            marginTop: 20, display: "inline-flex", alignItems: "center", gap: 8,
+            marginTop: 18, display: "inline-flex", alignItems: "center", gap: 8,
             background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.25)",
-            borderRadius: 980, padding: "7px 18px",
-            fontSize: 13, color: "#34d399", fontWeight: 600,
-          }}>
-            ✓ جاري التحميل
-          </div>
+            borderRadius: 980, padding: "7px 18px", fontSize: 13, color: "#34d399", fontWeight: 600,
+          }}>✓ جاري التحميل</div>
         )}
       </section>
 
-      {/* ════════════════════════ SCREENSHOT ════════════════════════ */}
-      <div style={{ maxWidth: 1080, margin: "0 auto 96px", padding: "0 24px" }}>
-        <div style={{
-          borderRadius: 20, overflow: "hidden",
-          border: `1px solid ${C.border}`,
-          boxShadow: "0 60px 120px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.03), 0 0 100px rgba(41,151,255,0.04)",
-        }}>
-          {/* Window chrome */}
-          <div style={{
-            background: "rgba(22,22,24,0.98)", padding: "13px 18px",
-            display: "flex", alignItems: "center", gap: 7,
-            borderBottom: `1px solid ${C.border}`,
-          }}>
-            {["#ff5f57","#ffbd2e","#28c840"].map(c => (
-              <div key={c} style={{ width: 11, height: 11, borderRadius: "50%", background: c }} />
-            ))}
-            <span style={{ marginRight: 14, fontSize: 12, color: C.dimmed, fontWeight: 500 }}>
-              WaledNet VPN · v3.0.0
-            </span>
-          </div>
-          <Image src="/windows_screen.png" alt="WaledNet Interface" width={1080} height={620}
-            style={{ display: "block", width: "100%", height: "auto" }} priority />
-        </div>
-      </div>
+      {/* ═══════════════ PLATFORMS ═══════════════ */}
+      <section id="platforms" style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto" }}>
 
-      {/* ════════════════════════ PLATFORMS ════════════════════════ */}
-      <section id="platforms" style={{ borderTop: `1px solid ${C.border}`, padding: "96px 24px" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto" }}>
-
-          {/* Section header */}
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
             <Eyebrow>توافق متكامل</Eyebrow>
-            <h2 style={{ fontSize: "clamp(30px, 5vw, 52px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 16 }}>
+            <h2 style={{ fontSize: "clamp(26px,5vw,48px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 14 }}>
               تطبيق واحد. منصتان.
             </h2>
-            <p style={{ fontSize: 18, color: C.muted, maxWidth: 480, margin: "0 auto", lineHeight: 1.6, fontWeight: 400 }}>
-              نفس الجودة والأداء على الويندوز والأندرويد، بتصميمَين مخصصَين لكل جهاز.
+            <p style={{ fontSize: "clamp(14px,2vw,17px)", color: C.muted, maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
+              نفس الجودة والأداء على الويندوز والأندرويد.
             </p>
           </div>
 
-          {/* Platform cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))", gap: 16 }}>
-            {[
-              {
-                icon: <Monitor size={24} color={C.blue} />,
-                bg: "rgba(41,151,255,0.1)", border: "rgba(41,151,255,0.2)",
-                title: "Windows", sub: ".exe installer · 64-bit",
-                desc: "مُحسَّن لأجهزة ويندوز 10 و 11. استهلاك أقل من 25MB RAM مع دعم كامل لتوجيه الترافيك.",
-                btn: "تحميل WaledNet-Setup.exe", color: C.blue, type: "windows" as const,
-              },
-              {
-                icon: <Smartphone size={24} color="#34d399" />,
-                bg: "rgba(52,211,153,0.1)", border: "rgba(52,211,153,0.2)",
-                title: "Android", sub: ".apk sideload · Android 6+",
-                desc: "خفيف وسريع على جميع الأجهزة. يدعم SlowDNS للإنترنت بدون رصيد مع إشعار حيّ للسرعة.",
-                btn: "تحميل WaledNet.apk", color: "#34d399", type: "android" as const,
-              },
-            ].map(p => (
-              <div key={p.type} style={{
-                background: C.surface, border: `1px solid ${C.border}`,
-                borderRadius: 18, padding: "36px 32px",
-                display: "flex", flexDirection: "column", gap: 0,
-              }}>
-                {/* Icon */}
-                <div style={{
-                  width: 50, height: 50, background: p.bg,
-                  border: `1px solid ${p.border}`, borderRadius: 14,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  marginBottom: 20,
-                }}>
-                  {p.icon}
-                </div>
+          {/* Cards grid — auto-fit works on any screen */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
+            gap: 14,
+          }}>
 
-                {/* Title */}
-                <h3 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.5px", marginBottom: 4 }}>{p.title}</h3>
-                <p style={{ fontSize: 12, color: C.dimmed, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 16 }}>{p.sub}</p>
+            {/* Windows */}
+            <div style={{
+              background: "rgba(41,151,255,0.05)",
+              border: "1px solid rgba(41,151,255,0.18)",
+              borderRadius: 18, padding: "clamp(24px,4vw,36px) clamp(20px,4vw,28px)",
+              display: "flex", flexDirection: "column",
+            }}>
+              <div style={{
+                width: 52, height: 52, borderRadius: 14,
+                background: "rgba(41,151,255,0.12)", border: "1px solid rgba(41,151,255,0.22)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 26, marginBottom: 20,
+              }}>🖥️</div>
 
-                {/* Description */}
-                <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.75, marginBottom: 28, flex: 1 }}>{p.desc}</p>
+              <h3 style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.4px", marginBottom: 4 }}>Windows</h3>
+              <p style={{ fontSize: 11, color: C.blue, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 18 }}>
+                EXE Installer · 64-bit
+              </p>
 
-                {/* CTA */}
-                <button onClick={() => dl(p.type)} style={{
-                  display: "flex", alignItems: "center", gap: 8,
-                  background: p.bg, color: p.color,
-                  border: `1px solid ${p.border}`,
-                  borderRadius: 980, padding: "10px 20px",
-                  fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
-                  alignSelf: "flex-start", transition: "opacity .2s",
-                }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-                >
-                  <Download size={13} />
-                  {p.btn}
-                </button>
-              </div>
-            ))}
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 9 }}>
+                {["يعمل على Windows 10 و 11","استهلاك أقل من 25MB RAM","تشغيل تلقائي مع بدء النظام","دعم كامل لتوجيه الترافيك"].map(f => (
+                  <li key={f} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 13, color: C.muted }}>
+                    <span style={{ color: C.blue, flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+
+              <button onClick={() => dl("windows")} style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+                background: C.blue, color: "#fff", border: "none",
+                borderRadius: 11, padding: "12px 18px",
+                fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+                transition: "all .2s", marginTop: "auto",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = C.blueH; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = C.blue;  e.currentTarget.style.transform = "none"; }}
+              ><Download size={14} /> تحميل WaledNet-Setup.exe</button>
+            </div>
+
+            {/* Android */}
+            <div style={{
+              background: "rgba(52,211,153,0.05)",
+              border: "1px solid rgba(52,211,153,0.18)",
+              borderRadius: 18, padding: "clamp(24px,4vw,36px) clamp(20px,4vw,28px)",
+              display: "flex", flexDirection: "column",
+            }}>
+              <div style={{
+                width: 52, height: 52, borderRadius: 14,
+                background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.22)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 26, marginBottom: 20,
+              }}>📱</div>
+
+              <h3 style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.4px", marginBottom: 4 }}>Android</h3>
+              <p style={{ fontSize: 11, color: "#34d399", fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 18 }}>
+                APK · Android 6.0+
+              </p>
+
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 9 }}>
+                {["يعمل على جميع أجهزة الأندرويد","دعم حصري لبروتوكول SlowDNS","إنترنت بدون رصيد باقة","إشعار حيّ للسرعة والـ Ping"].map(f => (
+                  <li key={f} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 13, color: C.muted }}>
+                    <span style={{ color: "#34d399", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+
+              <button onClick={() => dl("android")} style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+                background: "#10b981", color: "#fff", border: "none",
+                borderRadius: 11, padding: "12px 18px",
+                fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
+                transition: "all .2s", marginTop: "auto",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#34d399"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#10b981"; e.currentTarget.style.transform = "none"; }}
+              ><Download size={14} /> تحميل WaledNet.apk</button>
+            </div>
+
           </div>
+
+          <p style={{ textAlign: "center", fontSize: 12, color: C.dimmed, marginTop: 20, fontWeight: 500 }}>
+            التطبيق يتعرف تلقائياً على نظام جهازك ويقترح النسخة المناسبة عند الزيارة.
+          </p>
         </div>
       </section>
 
-      {/* ════════════════════════ FEATURES ════════════════════════ */}
-      <section id="features" style={{ borderTop: `1px solid ${C.border}`, padding: "96px 24px" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+      {/* ═══════════════ FEATURES ═══════════════ */}
+      <section id="features" style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
 
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
             <Eyebrow>البروتوكولات المدعومة</Eyebrow>
-            <h2 style={{ fontSize: "clamp(30px, 5vw, 52px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 16 }}>
+            <h2 style={{ fontSize: "clamp(26px,5vw,48px)", fontWeight: 900, letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: 14 }}>
               أربع تقنيات. حماية كاملة.
             </h2>
-            <p style={{ fontSize: 18, color: C.muted, maxWidth: 480, margin: "0 auto", lineHeight: 1.6, fontWeight: 400 }}>
-              نوفر أحدث بروتوكولات التشفير وتجاوز الحجب — كلها في تطبيق واحد.
+            <p style={{ fontSize: "clamp(14px,2vw,17px)", color: C.muted, maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
+              أحدث بروتوكولات التشفير وتجاوز الحجب — كلها في تطبيق واحد.
             </p>
           </div>
 
-          {/* 2×2 Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
+            gap: 2,
+          }}>
             {[
-              { emoji: "🌐", title: "SlowDNS", color: "#34d399",
-                desc: "اتصال مشفر عبر أنفاق DNS. يتجاوز قيود الباقة على جميع شبكات المحمول المحلية." },
-              { emoji: "⚡", title: "VLESS & VMESS", color: "#60a5fa",
-                desc: "بروتوكولات الجيل الجديد بسرعة نقل فائقة وقدرة عالية على تجاوز الجدران النارية." },
-              { emoji: "🔒", title: "SSH Tunneling", color: "#a78bfa",
-                desc: "تشفير عسكري المستوى يحمي خصوصيتك على أي شبكة عامة أو خاصة." },
-              { emoji: "🚀", title: "SNI Bypass", color: "#f59e0b",
-                desc: "أضف وخصص حزم SNI الخاصة بك لتحقيق أقصى سرعة على شبكتك تحديداً." },
+              { emoji: "🌐", title: "SlowDNS",      desc: "اتصال مشفر عبر أنفاق DNS. يتجاوز قيود الباقة على جميع الشبكات." },
+              { emoji: "⚡", title: "VLESS & VMESS", desc: "بروتوكولات الجيل الجديد بسرعة فائقة وتجاوز الجدران النارية." },
+              { emoji: "🔒", title: "SSH Tunnel",   desc: "تشفير عسكري يحمي خصوصيتك على أي شبكة عامة أو خاصة." },
+              { emoji: "🚀", title: "SNI Bypass",   desc: "خصص حزم SNI للحصول على أقصى سرعة على شبكتك." },
             ].map((f, i) => (
               <div key={i} style={{
-                padding: "44px 40px",
+                padding: "clamp(28px,4vw,44px) clamp(20px,3vw,36px)",
                 background: i % 2 === 0 ? C.surface : "rgba(255,255,255,0.02)",
                 borderTop: i >= 2 ? `1px solid ${C.border}` : "none",
                 borderRight: i % 2 === 0 ? `1px solid ${C.border}` : "none",
               }}>
-                <div style={{ fontSize: 40, marginBottom: 20 }}>{f.emoji}</div>
-                <h3 style={{ fontSize: 19, fontWeight: 800, color: C.text, marginBottom: 10, letterSpacing: "-0.3px" }}>{f.title}</h3>
-                <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8 }}>{f.desc}</p>
+                <div style={{ fontSize: 36, marginBottom: 16 }}>{f.emoji}</div>
+                <h3 style={{ fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
+                <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.8 }}>{f.desc}</p>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* ════════════════════════ FAQ ════════════════════════ */}
-      <section id="faq" style={{ borderTop: `1px solid ${C.border}`, padding: "96px 24px" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto" }}>
+      {/* ═══════════════ FAQ ═══════════════ */}
+      <section id="faq" style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto" }}>
 
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
             <Eyebrow>الأسئلة الشائعة</Eyebrow>
-            <h2 style={{ fontSize: "clamp(30px, 5vw, 48px)", fontWeight: 900, letterSpacing: "-1.2px" }}>
+            <h2 style={{ fontSize: "clamp(26px,5vw,44px)", fontWeight: 900, letterSpacing: "-1.2px" }}>
               كل ما تريد معرفته.
             </h2>
           </div>
@@ -373,56 +366,46 @@ export default function Page() {
             <FaqItem q="كيف أُضيف حزمة SNI خاصة بي؟"
               a="من قسم (حزم SNI) داخل التطبيق، تستطيع إضافة وتخصيص أي حزمة SNI للحصول على أعلى أداء." />
           </div>
-
         </div>
       </section>
 
-      {/* ════════════════════════ FINAL CTA ════════════════════════ */}
-      <section style={{ borderTop: `1px solid ${C.border}`, padding: "96px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto" }}>
-          <h2 style={{
-            fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 900,
-            letterSpacing: "-2px", lineHeight: 1.08, marginBottom: 20,
-          }}>
+      {/* ═══════════════ FINAL CTA ═══════════════ */}
+      <section style={{ borderTop: `1px solid ${C.border}`, padding: "80px clamp(16px,5vw,24px)", textAlign: "center" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <h2 style={{ fontSize: "clamp(32px,6vw,60px)", fontWeight: 900, letterSpacing: "-1.8px", lineHeight: 1.08, marginBottom: 18 }}>
             ابدأ الاتصال.<br />الآن.
           </h2>
-          <p style={{ fontSize: 18, color: C.muted, marginBottom: 44, lineHeight: 1.6 }}>
+          <p style={{ fontSize: "clamp(15px,2vw,18px)", color: C.muted, marginBottom: 40, lineHeight: 1.6 }}>
             مجاني. فوري. بلا قيود.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <button onClick={() => dl("windows")} style={{
-              display: "flex", alignItems: "center", gap: 10,
+              display: "flex", alignItems: "center", gap: 9,
               background: C.blue, color: "#fff", border: "none",
-              borderRadius: 980, padding: "15px 32px",
-              fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit",
-              transition: "all .2s",
+              borderRadius: 980, padding: "14px 28px",
+              fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", transition: "all .2s",
             }}
-              onMouseEnter={e => { e.currentTarget.style.background = C.blueHover; e.currentTarget.style.transform = "translateY(-1px)"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = C.blue;      e.currentTarget.style.transform = "none"; }}
-            >
-              <Monitor size={17} /> تحميل لـ Windows
-            </button>
+              onMouseEnter={e => { e.currentTarget.style.background = C.blueH; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = C.blue;  e.currentTarget.style.transform = "none"; }}
+            ><Monitor size={16} /> تحميل لـ Windows</button>
+
             <button onClick={() => dl("android")} style={{
-              display: "flex", alignItems: "center", gap: 10,
-              background: C.surface, color: C.text,
-              border: `1px solid ${C.border}`,
-              borderRadius: 980, padding: "15px 28px",
-              fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
-              transition: "all .2s",
+              display: "flex", alignItems: "center", gap: 9,
+              background: C.surface, color: C.text, border: `1px solid ${C.border}`,
+              borderRadius: 980, padding: "14px 24px",
+              fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", transition: "all .2s",
             }}
               onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.09)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
               onMouseLeave={e => { e.currentTarget.style.background = C.surface;                e.currentTarget.style.transform = "none"; }}
-            >
-              <Smartphone size={16} /> تحميل لـ Android
-            </button>
+            ><Smartphone size={16} /> تحميل لـ Android</button>
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════ FOOTER ════════════════════════ */}
+      {/* ═══════════════ FOOTER ═══════════════ */}
       <footer style={{
         borderTop: `1px solid ${C.border}`,
-        padding: "28px 40px",
+        padding: "24px clamp(16px,5vw,40px)",
         display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
