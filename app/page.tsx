@@ -6,8 +6,8 @@ import { Download, Monitor, Smartphone, Shield, Zap, Globe, Lock, HelpCircle } f
 
 const C = {
   bg:      "#000000",
-  surface: "rgba(255,255,255,0.035)",
-  surfaceH:"rgba(255,255,255,0.07)",
+  surface: "rgba(255,255,255,0.04)",
+  surfaceH:"rgba(255,255,255,0.08)",
   border:  "rgba(255,255,255,0.09)",
   text:    "#f5f5f7",
   muted:   "rgba(245,245,247,0.55)",
@@ -82,29 +82,46 @@ export default function Page() {
 
       <style>{`
         * { box-sizing: border-box; }
-        .hero-btn-primary {
-          display: inline-flex; items-center; justify-content: center; gap: 6px;
-          background: rgba(16,185,129,0.12); color: #34d399;
-          border: 1.5px solid rgba(16,185,129,0.4);
-          border-radius: 12px; padding: 10px 18px;
-          font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
-          transition: all .2s; backdrop-filter: blur(8px);
-          box-shadow: 0 4px 16px rgba(16,185,129,0.15);
+
+        .btn-android {
+          display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+          background: #10b981; color: #ffffff;
+          border: none;
+          border-radius: 12px; padding: 11px 20px;
+          font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+          transition: all .2s ease;
+          box-shadow: 0 4px 20px rgba(16,185,129,0.3);
         }
-        .hero-btn-primary:hover {
-          background: rgba(16,185,129,0.22); border-color: rgba(52,211,153,0.6); transform: translateY(-1px);
+        .btn-android:hover {
+          background: #34d399; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(16,185,129,0.4);
         }
-        .hero-btn-secondary {
-          display: inline-flex; items-center; justify-content: center; gap: 6px;
-          background: rgba(41,151,255,0.1); color: #60a5fa;
-          border: 1.5px solid rgba(41,151,255,0.35);
-          border-radius: 12px; padding: 10px 16px;
-          font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
-          transition: all .2s; backdrop-filter: blur(8px);
+
+        .btn-windows {
+          display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+          background: #2997ff; color: #ffffff;
+          border: none;
+          border-radius: 12px; padding: 11px 20px;
+          font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+          transition: all .2s ease;
+          box-shadow: 0 4px 20px rgba(41,151,255,0.3);
         }
-        .hero-btn-secondary:hover {
-          background: rgba(41,151,255,0.2); border-color: rgba(96,165,250,0.6); transform: translateY(-1px);
+        .btn-windows:hover {
+          background: #3da0ff; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(41,151,255,0.4);
         }
+
+        .btn-secondary {
+          display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+          background: rgba(255,255,255,0.05); color: #f5f5f7;
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 12px; padding: 11px 18px;
+          font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+          transition: all .2s ease;
+          backdrop-filter: blur(10px);
+        }
+        .btn-secondary:hover {
+          background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.22); transform: translateY(-1px);
+        }
+
         @media (max-width: 480px) {
           .nav-links { display: none !important; }
           .feature-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
@@ -131,7 +148,7 @@ export default function Page() {
           <a href="#faq" style={{ color: "inherit", textDecoration: "none" }}>الأسئلة</a>
         </div>
 
-        <button onClick={() => dl(os)} className="hero-btn-primary" style={{ padding: "6px 14px", fontSize: 12, borderRadius: 10 }}>
+        <button onClick={() => dl(os)} className={os === "android" ? "btn-android" : "btn-windows"} style={{ padding: "6px 14px", fontSize: 12, borderRadius: 10, boxShadow: "none" }}>
           <Download size={13} /> تحميل مجاني
         </button>
       </nav>
@@ -173,20 +190,20 @@ export default function Page() {
           <div className="btn-group" style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
             {os === "android" ? (
               <>
-                <button onClick={() => dl("android")} className="hero-btn-primary">
-                  <Download size={14} /> Android (APK)
+                <button onClick={() => dl("android")} className="btn-android">
+                  <Download size={15} /> Android (APK)
                 </button>
-                <button onClick={() => dl("windows")} className="hero-btn-secondary">
-                  <Monitor size={14} /> Windows (EXE)
+                <button onClick={() => dl("windows")} className="btn-secondary">
+                  <Monitor size={14} color={C.blue} /> Windows (EXE)
                 </button>
               </>
             ) : (
               <>
-                <button onClick={() => dl("windows")} className="hero-btn-secondary">
-                  <Download size={14} /> Windows (EXE)
+                <button onClick={() => dl("windows")} className="btn-windows">
+                  <Download size={15} /> Windows (EXE)
                 </button>
-                <button onClick={() => dl("android")} className="hero-btn-primary">
-                  <Smartphone size={14} /> Android (APK)
+                <button onClick={() => dl("android")} className="btn-secondary">
+                  <Smartphone size={14} color="#34d399" /> Android (APK)
                 </button>
               </>
             )}
