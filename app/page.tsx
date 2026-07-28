@@ -18,6 +18,8 @@ const C = {
   greenH:  "#34d399",
 }
 
+const UPDATE_JSON_URL = "https://raw.githubusercontent.com/hussein34535/waledupdate/refs/heads/main/update.json"
+
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
@@ -45,17 +47,33 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 export default function Page() {
   const [os, setOs] = useState<"windows" | "android">("windows")
   const [flash, setFlash] = useState(false)
+  const [urls, setUrls] = useState({
+    windows: "https://github.com/hussein34535/waledupdate/releases/download/v3.0.0/WaledNet_Setup.exe",
+    android: "https://github.com/hussein34535/waledupdate/releases/download/v3.0.0/walednet.apk",
+    version: "3.0.0",
+  })
 
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase()
     if (ua.includes("android") || ua.includes("mobile")) setOs("android")
+
+    fetch(UPDATE_JSON_URL)
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setUrls({
+            windows: data.windows_url || "https://github.com/hussein34535/waledupdate/releases/download/v3.0.0/WaledNet_Setup.exe",
+            android: data.android_url || "https://github.com/hussein34535/waledupdate/releases/download/v3.0.0/walednet.apk",
+            version: data.version || "3.0.0",
+          })
+        }
+      })
+      .catch(() => {})
   }, [])
 
   const dl = (type: "windows" | "android") => {
-    const a = document.createElement("a")
-    a.href = type === "windows" ? "/walednet-setup.exe" : "/waledpro.apk"
-    a.download = type === "windows" ? "WaledNet-Setup.exe" : "WaledNet.apk"
-    document.body.appendChild(a); a.click(); document.body.removeChild(a)
+    const targetUrl = type === "windows" ? urls.windows : urls.android
+    window.location.href = targetUrl
     setFlash(true); setTimeout(() => setFlash(false), 2800)
   }
 
@@ -175,7 +193,7 @@ export default function Page() {
           </div>
 
           <p style={{ fontSize: 11, color: C.dimmed, marginTop: 12, fontWeight: 500 }}>
-            مجاني · v3.0.0 · Windows 10/11 & Android 6+
+            مجاني · v{urls.version} · Windows 10/11 & Android 6+
           </p>
 
           {flash && (
